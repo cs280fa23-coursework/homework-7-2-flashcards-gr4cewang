@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 services:
   # Ensure environment variables DB_PORT, DB_USER, DB_PASSWORD are set in .env file.
   #
@@ -12,7 +12,7 @@ services:
     restart: always
     container_name: postgres-for-flashcards-api
     ports:
-      - '${DB_PORT}:5432' # HOST_PORT:CONTAINER_PORT
+      - "${DB_PORT}:5432" # HOST_PORT:CONTAINER_PORT
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
