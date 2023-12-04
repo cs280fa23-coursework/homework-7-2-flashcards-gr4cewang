@@ -12,6 +12,18 @@ export class DecksService {
     private deckRepository: Repository<Deck>,
   ) {}
 
+  async incrementNumCards(id:string): Promise<Deck | null> {
+    const deck = await this.findOne(id);
+    deck.numberOfCards++;
+    return deck;
+  }
+
+  async decrementNumCards(id:string): Promise<Deck | null> {
+    const deck = await this.findOne(id);
+    deck.numberOfCards--;
+    return deck;
+  }
+
   async create(createDeckDto: CreateDeckDto, userId: number): Promise<Deck> {
     const deck = await this.deckRepository.create({
       ...createDeckDto,

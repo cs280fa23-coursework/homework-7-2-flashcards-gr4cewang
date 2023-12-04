@@ -1,4 +1,4 @@
-import type { Deck, DeckWithUserData, User } from "./types";
+import type { Card, Deck, DeckWithUserData, User } from "./types";
 import {
   getAuthenticatedUser,
   getAuthenticatedUserToken,
@@ -168,4 +168,91 @@ const handleError = (response: Response, message?: string) => {
   throw new Error(
     `Error: ${response.status} - ${message || response.statusText}`,
   );
+};
+
+export const createCard = async (
+  front: string,  // what is written of the front of the flashcard
+  back: string,   // what is written on the back of the flashcard
+  deckId:string,
+): Promise<Card> => {
+  const user = getAuthenticatedUser();
+  const token = getAuthenticatedUserToken();
+
+  const response = await fetch (`${API_URL}/decks/${deckId}/cards`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ front, back }),
+  })
+
+  const responseJson = await response.json();
+
+  if (!response.ok) {
+    handleError(response, responseJson.message);
+  }
+
+  return {
+    ...responseJson.data,
+    user: user,
+    // TODO what to return here?
+  };
+}
+
+export const editCard = async (deckId: string, cardId:string, newFront: string, newBack: string): Promise<void> => {
+  const token = getAuthenticatedUserToken();
+
+  const response = await fetch(`${API_URL}/decks/${deckId}/cards/${cardId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ front : newFront, back : newBack }),
+  });
+  const responseJson = await response.json();
+
+  if (!response.ok) {
+    handleError(response, responseJson.message);
+  }
+};
+
+export const deleteCard = async (deckId: string, cardId:string): Promise<void> => {
+  const token = getAuthenticatedUserToken();
+
+  const response = await fetch(`${API_URL}/decks/${deckId}/cards/${cardId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const responseJson = await response.json();
+
+  if (!response.ok) {
+    handleError(response, responseJson.message);
+  }
+};
+
+export const fetchCards = async (deckId:string): Promise<Card[]> => {
+  const token = getAuthenticatedUserToken();
+  // console.log(token);
+
+  const response = await fetch(`${API_URL}/decks/${deckId}/cards`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  // console.log(response);
+
+  const responseJson = await response.json();
+
+  if (!response.ok) {
+    handleError(response, responseJson.message);
+  }
+
+  //console.log(responseJson.data);
+  return responseJson.data;
 };

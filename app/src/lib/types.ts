@@ -12,4 +12,9 @@ export type Deck = {
   numberOfCards: number;
 };
 
+export type Card = {
+  front: string;  // what is written of the front of the flashcard
+  back: string;   // what is written on the back of the flashcard
+}
+
 export type DeckWithUserData = Deck & { user?: User };
