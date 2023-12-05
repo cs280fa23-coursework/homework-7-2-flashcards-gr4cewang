@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { ILike, Repository } from "typeorm";
 import { Card } from "./card.entity";
 import { CreateCardDto } from "./card-create.dto";
 import { UpdateCardDto } from "./card-update.dto";
@@ -10,19 +10,20 @@ import { DecksService } from "src/decks/decks.service";
 export class CardsService {
   constructor(
     @InjectRepository(Card)
-    private cardRepository: Repository<Card>,
-    private decksService: DecksService,
+    private readonly cardRepository: Repository<Card>,
+    private readonly decksService: DecksService,
   ) {}
 
   async create(createCardDto: CreateCardDto, deckId: string): Promise<Card> {
-    const card = await this.cardRepository.create({
+    const card = this.cardRepository.create({
       ...createCardDto,
+      deckId: deckId,
     });
     await this.decksService.incrementNumCards(deckId);
     return this.cardRepository.save(card);
   }
 
-  async findOne(id: string): Promise<Card | null> {
+  async findOneCard(id: string): Promise<Card | null> {
     return this.cardRepository.findOneBy({ id });
   }
 
@@ -34,52 +35,71 @@ export class CardsService {
     return this.cardRepository.save(card);
   }
 
-  async remove(id: string): Promise<Card | null> {
-    const card = await this.findOne(id);
+  async remove(cardId: string): Promise<Card | null> {
+    const card = await this.findOneCard(cardId);
     if (!card) {
       return null;
     }
-    const deckId = card.deckId;
-    await this.decksService.incrementNumCards(deckId);
+
+    let deckId = card.deckId;
+    await this.decksService.decrementNumCards(deckId);
     return this.cardRepository.remove(card);
   }
 
   async findAll(
+    deckId: string, // optional?
     limit: number,
     offset: number,
     search?: string,
-    deckId?: number,
-    withUserData?: boolean,
   ): Promise<Card[]> {
-    const queryBuilder = this.cardRepository.createQueryBuilder("cards");
+    const front = search ? ILike(`%${search}%`) : undefined;
+    const back = search ? ILike(`%${search}%`) : undefined;
+    const cards = await this.cardRepository.find({
+      take: limit,
+      skip: offset,
+      where: [
+        {
+          deckId,
+          front
+        },
+        {
+          deckId,
+          back
+        },
+      ],
+      order: {
+        createdAt: "DESC",
+      },
+      relations: ["deck"],
+    })
 
-    if (withUserData) {
-      queryBuilder.leftJoinAndSelect("cards.user", "user");
-    }
+    return cards;
 
-    let hasWhereCondition = false;
+    // const queryBuilder = this.cardRepository.createQueryBuilder("cards");
 
-    if (search !== undefined) {
-      queryBuilder.where("cards.title ILIKE :search", {
-        search: `%${search}%`,
-      });
-      hasWhereCondition = true;
-    }
+    // queryBuilder.leftJoinAndSelect("cards.deck", "deck");
 
-    if (deckId !== undefined) {
-      if (hasWhereCondition) {
-        queryBuilder.andWhere("cards.deckId = :deckId", { deckId });
-      } else {
-        queryBuilder.where("cards.deckId = :deckId", { deckId });
-        hasWhereCondition = true;
-      }
-    }
+    // let hasWhereCondition = false;
 
-    queryBuilder.limit(limit);
-    queryBuilder.offset(offset);
+    // if (search !== undefined) {
+    //   queryBuilder.where("cards.title ILIKE :search", {
+    //     search: `%${search}%`,
+    //   });
+    //   hasWhereCondition = true;
+    // }
 
-    queryBuilder.orderBy("cards.createdAt", "DESC");
+    // if (hasWhereCondition) {
+    //   queryBuilder.andWhere("cards.deckId = :deckId", { deckId });
+    // } else {
+    //   queryBuilder.where("cards.deckId = :deckId", { deckId });
+    //   hasWhereCondition = true;
+    // }
 
-    return await queryBuilder.getMany();
+    // queryBuilder.limit(limit);
+    // queryBuilder.offset(offset);
+
+    // queryBuilder.orderBy("cards.createdAt", "DESC");
+
+    // return await queryBuilder.getMany();
   }
 }

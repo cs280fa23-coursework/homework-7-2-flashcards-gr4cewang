@@ -30,7 +30,7 @@ export class DeckOwnershipGuard implements CanActivate {
 
     // If deckId is not provided
     if (!deckId) {
-      throw new BadRequestException("Invalid or missing deck ID");
+      throw new BadRequestException(`Invalid or missing deck ID ${deckId}`);
     }
 
     const deck = await this.deckService.findOne(deckId);

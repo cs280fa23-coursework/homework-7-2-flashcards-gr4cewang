@@ -65,7 +65,7 @@ export class DecksController {
   @Delete(":id")
   async remove(
     @Param("id") id: string,
-  ): Promise<{ statusCode: number; message: string }> {
+  ): Promise<{ statusCode: number; message: string; }> {
     await this.decksService.remove(id);
 
     return {

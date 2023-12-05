@@ -4,6 +4,8 @@ import { Repository } from "typeorm";
 import { Deck } from "./deck.entity";
 import { CreateDeckDto } from "./create-deck.dto";
 import { UpdateDeckDto } from "./deck-update.dto";
+import { Card } from "src/cards/card.entity";
+import { CardsService } from "src/cards/cards.service";
 
 @Injectable()
 export class DecksService {
@@ -12,16 +14,26 @@ export class DecksService {
     private deckRepository: Repository<Deck>,
   ) {}
 
-  async incrementNumCards(id:string): Promise<Deck | null> {
+  async incrementNumCards(id: string): Promise<Deck | null> {
     const deck = await this.findOne(id);
-    deck.numberOfCards++;
-    return deck;
-  }
+    
+    if (!deck) {
+      return null;
+    }
 
-  async decrementNumCards(id:string): Promise<Deck | null> {
+    deck.numberOfCards += 1;
+    return this.deckRepository.save(deck);
+  }
+  
+  async decrementNumCards(id: string): Promise<Deck | null> {
     const deck = await this.findOne(id);
-    deck.numberOfCards--;
-    return deck;
+    
+    if (!deck) {
+      return null;
+    }
+    
+    deck.numberOfCards -= 1;
+    return this.deckRepository.save(deck);
   }
 
   async create(createDeckDto: CreateDeckDto, userId: number): Promise<Deck> {
@@ -49,6 +61,12 @@ export class DecksService {
     if (!deck) {
       return null;
     }
+
+    // deck.cards.forEach((card) => {
+    //   let cardId = card.id
+    //   this.cardsService.remove(deck.id, cardId);
+    // })
+    
     return this.deckRepository.remove(deck);
   }
 
