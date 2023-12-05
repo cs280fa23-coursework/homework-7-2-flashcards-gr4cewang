@@ -47,7 +47,7 @@ export class CardsService {
   }
 
   async findAll(
-    deckId: string, // optional?
+    deckId: string,
     limit: number,
     offset: number,
     search?: string,
@@ -74,32 +74,5 @@ export class CardsService {
     })
 
     return cards;
-
-    // const queryBuilder = this.cardRepository.createQueryBuilder("cards");
-
-    // queryBuilder.leftJoinAndSelect("cards.deck", "deck");
-
-    // let hasWhereCondition = false;
-
-    // if (search !== undefined) {
-    //   queryBuilder.where("cards.title ILIKE :search", {
-    //     search: `%${search}%`,
-    //   });
-    //   hasWhereCondition = true;
-    // }
-
-    // if (hasWhereCondition) {
-    //   queryBuilder.andWhere("cards.deckId = :deckId", { deckId });
-    // } else {
-    //   queryBuilder.where("cards.deckId = :deckId", { deckId });
-    //   hasWhereCondition = true;
-    // }
-
-    // queryBuilder.limit(limit);
-    // queryBuilder.offset(offset);
-
-    // queryBuilder.orderBy("cards.createdAt", "DESC");
-
-    // return await queryBuilder.getMany();
   }
 }

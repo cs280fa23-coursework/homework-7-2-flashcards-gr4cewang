@@ -86,10 +86,6 @@ import {
         offset,
         search,
         data: cards.map((card) => {
-          // STEP 3 in Task 12
-          // if (card.deckId) {
-          //   delete card.deckId;
-          // }
           return card as CardResponseDto;
         }),
       };
