@@ -10,9 +10,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Textarea } from "./ui/textarea";
+import { Textarea } from "../ui/textarea";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
-import useMutationDecks from "../hooks/use-mutation-decks";
+import useMutationDecks from "../../hooks/use-mutation-decks";
 import { useToast } from "@/components/ui/use-toast";
 import { useStore } from "@/lib/store";
 

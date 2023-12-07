@@ -12,61 +12,68 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import useMutationDecks from "@/hooks/use-mutation-decks";
-import { useToast } from "./ui/use-toast";
+import useMutationCards from "@/hooks/use-mutation-cards";
+import { useToast } from "../ui/use-toast.ts";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
-import { Deck } from "../lib/types.ts";
+import { Card } from "../../lib/types.ts";
 
-const EditDeckDialog = ({
-  id,
+const EditCardDialog = ({
   setDialogOpen,
-  deck,
+  card,
 }: {
   id: string;
   setDialogOpen: (b: boolean) => void;
-  deck: Deck;
+  card: Card;
   children: ReactNode;
 }) => {
-  const [newTitle, setTitle] = useState("");
-  const [deckId, setId] = useState("");
+  const [newFront, setFront] = useState("");
+  const [newBack, setBack] = useState("");
+  const [cardId, setId] = useState("");
   const { toast } = useToast();
-  const { mutateDeckById } = useMutationDecks();
+  const { mutateCardById } = useMutationCards();
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (deck !== null && deck.id !== deckId && deck.title !== newTitle) {
-      setTitle(deck.title);
-      setId(deck.id);
+    if (card !== null && card.deckId !== cardId && card.front !== newFront && card.back !== newBack) {
+      setFront(card.front);
+      setBack(card.back);
+      setId(card.id);
     }
-  }, [deck]);
+  }, [card]);
 
-  const handleSave: () => Promise<void> = async () => {
+  const handleSave = async (event: React.SyntheticEvent) => {
+    event.preventDefault(); 
     // Call toast if there is an empty input:
-    if (!newTitle) {
+    if (!newFront && !newBack) {
       toast({
         variant: "destructive",
-        title: "Sorry! Content cannot be empty! 🙁",
-        description: `Please enter the content for your deck.`,
+        title: "Sorry! A card must have 'front' and 'back'! 🙁",
+        description: `Please provide the required information to update a card.`,
       });
       // Close (possibility 1):
 
       setMenuOpen(false);
       setDialogOpen(false);
+      setFront("");
+      setBack("");
       return;
-    }
-    await mutateDeckById(id, newTitle);
+    } else {
+        await mutateCardById(cardId, newFront, newBack);
 
-    // Close (possibility 2):
-    setMenuOpen(false);
-    setDialogOpen(false);
-    setTitle("");
+        // Close (possibility 2):
+        setMenuOpen(false);
+        setDialogOpen(false);
+        setFront("");
+        setBack("");
+    }
   };
 
   const handleCancel = (): void => {
     // Close (possibility 3):
     setMenuOpen(false);
     setDialogOpen(false);
-    setTitle("");
+    setFront("");
+    setBack("");
   };
 
   return (
@@ -86,23 +93,39 @@ const EditDeckDialog = ({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Deck</DialogTitle>
+          <DialogTitle>Edit Card</DialogTitle>
           <DialogDescription>
-            Edit the title of your deck here.
+            Edit the front and back of your card here.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid items-center grid-cols-4 gap-4">
-            <Label htmlFor="title" className="text-right">
-              Title
+            <Label htmlFor="front" className="text-right">
+              Front
             </Label>
             <Input
               // Set the input accordingly:
-              id="content"
-              value={newTitle}
+              id="front"
+              value={newFront}
               className="col-span-3"
               onChange={(e) => {
-                setTitle(e.target.value);
+                e.preventDefault();
+                setFront(e.target.value);
+              }}
+            />
+          </div>
+          <div className="grid items-center grid-cols-4 gap-4">
+            <Label htmlFor="back" className="text-right">
+              Back
+            </Label>
+            <Input
+              // Set the input accordingly:
+              id="back"
+              value={newBack}
+              className="col-span-3"
+              onChange={(e) => {
+                e.preventDefault();
+                setBack(e.target.value);
               }}
             />
           </div>
@@ -116,10 +139,7 @@ const EditDeckDialog = ({
           <DialogClose asChild>
             <Button
               type="submit"
-              onClick={(event) => {
-                event.preventDefault(); // prevent under the hood default behaviors that HTML has
-                handleSave();
-              }}
+              onClick={handleSave}
             >
               Save
             </Button>
@@ -130,4 +150,4 @@ const EditDeckDialog = ({
   );
 };
 
-export default EditDeckDialog;
+export default EditCardDialog;

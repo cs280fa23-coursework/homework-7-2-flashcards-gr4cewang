@@ -9,7 +9,7 @@ import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import useMutationDecks from "@/hooks/use-mutation-decks.tsx";
 import EditDeckDialog from "./edit-deck-dialog";
 import { useState } from "react";
-import { Deck } from "../lib/types.ts";
+import { Deck } from "../../lib/types.ts";
 
 const DeckActions = ({ id, deck }: { id: string; deck: Deck }) => {
   const { deleteDeckById } = useMutationDecks();

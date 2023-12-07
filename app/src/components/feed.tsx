@@ -1,5 +1,5 @@
 import Header from "./header";
-import Decks from "./decks";
+import Decks from "./deck/decks";
 import { User } from "@/lib/types";
 
 const Feed = ({ user }: { user: User | null }) => {
