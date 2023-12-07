@@ -2,12 +2,18 @@ import { HomeIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
 import { AddDeckDialog } from "./deck/add-deck-dialog";
 import { useNavigate } from "react-router-dom";
+import { AddCardDialog } from "./card/add-card-dialog";
+import { useStore } from "@/lib/store";
 
 const Sidebar = () => {
-  const navigate = useNavigate();
+  const selectedDeckId = useStore((state) => state.selectedDeckId);
+  const clearSelectedDeckId = useStore((state) => state.clearSelectedDeckId);
   
+  const navigate = useNavigate();
+
   const handleClickHome = () => {
     navigate("/");
+    clearSelectedDeckId();
   };
 
   return (
@@ -18,7 +24,7 @@ const Sidebar = () => {
       <Button variant={"ghost"} size="sm">
         <MagnifyingGlassIcon className="w-5 h-5" />
       </Button>
-      <AddDeckDialog />
+      {selectedDeckId ? <AddCardDialog /> : <AddDeckDialog />}
     </div>
   );
 };

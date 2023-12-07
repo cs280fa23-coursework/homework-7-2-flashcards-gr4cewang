@@ -14,6 +14,7 @@ import { Textarea } from "../ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useStore } from "@/lib/store";
 import useMutationCards from "@/hooks/use-mutation-cards";
+import { PlusCircledIcon } from "@radix-ui/react-icons";
 
 export const AddCardDialog = () => {
   const [front, setFront] = useState("");
@@ -47,13 +48,8 @@ export const AddCardDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          aria-label={"Make a Card"}
-          variant="secondary"
-          size="sm"
-          className="w-full m-2"
-        >
-          Add Card
+        <Button aria-label={"Add Deck"} variant="default" size="sm">
+          <PlusCircledIcon className="w-5 h-5" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[525px]">

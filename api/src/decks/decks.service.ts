@@ -44,9 +44,23 @@ export class DecksService {
     return this.deckRepository.save(deck); // use the repository to save the deck to the database
   }
 
-  async findOne(id: string): Promise<Deck | null> {
-    return this.deckRepository.findOneBy({ id });
+  // async findOne(id: string): Promise<Deck | null> {
+  //   return this.deckRepository.findOneBy({ id });
+  // }
+
+  async findOne(id: string, withUserData?: boolean): Promise<Deck | null> {
+    const relations = [];
+  
+    if (withUserData) {
+      relations.push("user");
+    }
+  
+    return this.deckRepository.findOne({
+      where: { id },
+      relations,
+    });
   }
+  
 
   async update(id: string, updateDeckDto: UpdateDeckDto): Promise<Deck | null> {
     const deck = await this.deckRepository.preload({ id, ...updateDeckDto });
@@ -61,11 +75,6 @@ export class DecksService {
     if (!deck) {
       return null;
     }
-
-    // deck.cards.forEach((card) => {
-    //   let cardId = card.id
-    //   this.cardsService.remove(deck.id, cardId);
-    // })
     
     return this.deckRepository.remove(deck);
   }

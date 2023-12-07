@@ -42,9 +42,9 @@ const EditCardDialog = ({
   }, [card]);
 
   const handleSave = async (event: React.SyntheticEvent) => {
-    event.preventDefault(); 
+    event.preventDefault();
     // Call toast if there is an empty input:
-    if (!newFront && !newBack) {
+    if (!newFront || !newBack) {
       toast({
         variant: "destructive",
         title: "Sorry! A card must have 'front' and 'back'! 🙁",
