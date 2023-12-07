@@ -1,4 +1,5 @@
 import MainView from "./views/main-view";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Toaster } from "./components/ui/toaster";
 import { useStore } from "./lib/store";
 import { useEffect } from "react";
@@ -8,6 +9,7 @@ import {
   removeAuthenticatedUserToken,
 } from "./lib/auth";
 import { useToast } from "./components/ui/use-toast";
+import ErrorPage from "./routes/error-page";
 
 function App() {
   const user = useStore((state) => state.user);
@@ -30,9 +32,17 @@ function App() {
     }
   }, []);
 
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <MainView user = { user } />,
+      errorElement: <ErrorPage />,
+    },
+  ]);  
+
   return (
     <div className="flex justify-center min-h-screen">
-      <MainView user = {user} />
+      <RouterProvider router={router} />
       <Toaster />
     </div>
   );

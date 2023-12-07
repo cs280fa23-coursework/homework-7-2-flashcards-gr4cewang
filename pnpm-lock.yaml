@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      react-router-dom:
+        specifier: ^6.20.1
+        version: 6.20.1(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       concurrently:
         specifier: ^8.2.2
