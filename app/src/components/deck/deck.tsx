@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
 import { SyntheticEvent } from "react";
 import { useStore } from "@/lib/store";
+import { Link } from "react-router-dom";
 
 const Deck = ({ deck }: { deck: DeckType }) => {
   const selectedDeckId = useStore((state) => state.selectedDeckId);
@@ -32,6 +33,7 @@ const Deck = ({ deck }: { deck: DeckType }) => {
       <div className="flex p-4 mb-2">{deck.numberOfCards} cards</div>
       <Button variant="ghost" size="sm" onClick={showCards}>
         <OpenInNewWindowIcon className="w-5 h-5" />
+        <Link to={`decks/${deck.id}`}>link</Link>
       </Button>
     </div>
   );
