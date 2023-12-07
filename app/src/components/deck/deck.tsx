@@ -2,24 +2,16 @@ import type { Deck as DeckType } from "@/lib/types";
 import DeckActions from "./deck-actions";
 import { Button } from "../ui/button";
 import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
-import { SyntheticEvent } from "react";
-import { useStore } from "@/lib/store";
 import { Link } from "react-router-dom";
 
-const Deck = ({ deck }: { deck: DeckType }) => {
-  const selectedDeckId = useStore((state) => state.selectedDeckId);
-  const setSelectedDeckId = useStore((state) => state.setSelectedDeckId);
-  const clearSelectedDeckId = useStore((state) => state.clearSelectedDeckId);
+// function handleClickDeck () => {
+//   <Link to={`decks/${deck.id}`}>
+//           <OpenInNewWindowIcon className="w-5 h-5" onClick={(event) => {
+//             event.preventDefault();}}/>link
+//   </Link>
+// }
 
-  const showCards = (event: SyntheticEvent) => {
-    event.preventDefault();
-    if (selectedDeckId === deck.id) {
-      clearSelectedDeckId();
-    } else {
-      setSelectedDeckId(deck.id);
-    }
-  };
-  
+const Deck = ({ deck }: { deck: DeckType }) => {
   return (
     <div className="p-4 border-b border-slate-400">
       <div className="flex items-center justify-between">
@@ -31,9 +23,12 @@ const Deck = ({ deck }: { deck: DeckType }) => {
         </div>
       </div>
       <div className="flex p-4 mb-2">{deck.numberOfCards} cards</div>
-      <Button variant="ghost" size="sm" onClick={showCards}>
-        <OpenInNewWindowIcon className="w-5 h-5" />
-        <Link to={`decks/${deck.id}`}>link</Link>
+      <Button variant="ghost" size="sm" onClick={(event) => {
+            event.preventDefault();}}>
+        <Link to={`decks/${deck.id}`}>
+          <OpenInNewWindowIcon className="w-4 h-4" onClick={(event) => {
+            event.preventDefault();}}/>link
+        </Link>
       </Button>
     </div>
   );

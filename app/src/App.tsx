@@ -10,6 +10,7 @@ import {
 } from "./lib/auth";
 import { useToast } from "./components/ui/use-toast";
 import ErrorPage from "./routes/error-page";
+import CardView from "./views/card-view";
 
 function App() {
   const user = useStore((state) => state.user);
@@ -38,7 +39,12 @@ function App() {
       element: <MainView user = { user } />,
       errorElement: <ErrorPage />,
     },
-  ]);  
+    {
+      path: "/decks/:deckId",
+      element: <CardView  />,
+      errorElement: <ErrorPage />,
+    },
+  ]);
 
   return (
     <div className="flex justify-center min-h-screen">

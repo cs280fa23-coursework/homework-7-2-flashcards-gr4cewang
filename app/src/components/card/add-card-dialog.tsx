@@ -62,7 +62,7 @@ export const AddCardDialog = () => {
           <DialogDescription>
             {user
               ? "Provide the content of your card here."
-              : "Please login to make a deck."}
+              : "Please login to make a card."}
           </DialogDescription>
         </DialogHeader>
         {user && (

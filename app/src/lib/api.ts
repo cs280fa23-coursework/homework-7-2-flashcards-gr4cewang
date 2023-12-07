@@ -256,3 +256,15 @@ export const fetchCards = async (deckId:string): Promise<Card[]> => {
   //console.log(responseJson.data);
   return responseJson.data;
 };
+
+// Fetch a post given its id
+export const fetchDeckById = async (id: string): Promise<DeckWithUserData> => {
+  const response = await fetch(`${API_URL}/decks/${id}?withUserData=true`);
+  const responseJson = await response.json();
+
+  if (!response.ok) {
+    handleError(response, responseJson.message);
+  }
+
+  return responseJson.data;
+};

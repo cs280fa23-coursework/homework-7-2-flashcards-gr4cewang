@@ -4,14 +4,25 @@ import CardActions from "@/components/card/card-actions"
 const Card = ({ card }: { card: Card }) => {
   const { front, back } = card;
 
+  let frontYes: boolean = true;
+  
+  const handleFlip = async () => {
+    if (frontYes) {
+      frontYes = false;
+    } else {
+      frontYes = true;
+    }
+  };
+
   return (
-    <div className="flex border-b border-slate-400">
+    <div className="p-4 border-b border-slate-400">
       <div className="w-full p-4">
-        <div className="flex mb-2">
+        <div className="flex mb-2 justify-end">
           <CardActions id={card.id} card={card} />
         </div>
-        <div className="mt-2">{front}</div>
-        <div className="mt-2">{back}</div>
+        {frontYes ? <div className="mt-2" onClick = {handleFlip}>{front}</div> : <div className="mt-2" onClick = {handleFlip}>{back}</div>}
+        {/* <div className="mt-2">{front}</div>
+        <div className="mt-2">{back}</div> */}
       </div>
     </div>
   );
