@@ -10,16 +10,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import useMutationUser from "@/hooks/use-mutations-users";
+import { useStore } from "@/lib/store";
 import { useNavigate } from "react-router-dom";
 
 export const LogoutDialog = () => {
   const navigate = useNavigate();
+  const clearSelectedDeckId = useStore((state) => state.clearSelectedDeckId);
 
   const { logoutUser } = useMutationUser();
 
   const handleLogout = async () => {
     logoutUser();
     navigate("/");
+    clearSelectedDeckId();
   };
 
   const handleCancel = () => {

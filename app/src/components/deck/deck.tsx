@@ -4,13 +4,6 @@ import { Button } from "../ui/button";
 import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
 import { Link } from "react-router-dom";
 
-// function handleClickDeck () => {
-//   <Link to={`decks/${deck.id}`}>
-//           <OpenInNewWindowIcon className="w-5 h-5" onClick={(event) => {
-//             event.preventDefault();}}/>link
-//   </Link>
-// }
-
 const Deck = ({ deck }: { deck: DeckType }) => {
   return (
     <div className="p-4 border-b border-slate-400">
@@ -23,11 +16,12 @@ const Deck = ({ deck }: { deck: DeckType }) => {
         </div>
       </div>
       <div className="flex p-4 mb-2">{deck.numberOfCards} cards</div>
-      <Button variant="ghost" size="sm" onClick={(event) => {
-            event.preventDefault();}}>
+      <Button variant="ghost" size="sm">
         <Link to={`decks/${deck.id}`}>
-          <OpenInNewWindowIcon className="w-4 h-4" onClick={(event) => {
-            event.preventDefault();}}/>link
+        <div className="flex items-center">
+            <OpenInNewWindowIcon className="w-4 h-4" />
+            <span className="ml-1">See cards</span>
+          </div>
         </Link>
       </Button>
     </div>
