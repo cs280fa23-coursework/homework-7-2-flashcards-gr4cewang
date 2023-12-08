@@ -9,7 +9,7 @@ function useMutationCards() {
   const updateCard = useStore((state) => state.updateCard);
   const selectedDeckId = useStore((state) => state.selectedDeckId);
 
-  const deleteCardById = async (cardId:string, deckId: string) => {
+  const deleteCardById = async (cardId: string, deckId: string) => {
     try {
       await deleteCard(deckId, cardId);
       removeCard(cardId);
@@ -24,7 +24,7 @@ function useMutationCards() {
     }
   };
 
-  const addNewCard = async (front: string, back:string) => {
+  const addNewCard = async (front: string, back: string) => {
     try {
       const newCard = await createCard(front, back, selectedDeckId as string);
       addCard(newCard);
@@ -39,10 +39,14 @@ function useMutationCards() {
     }
   };
 
-  const mutateCardById = async (cardId: string, front: string, back:string) => {
+  const mutateCardById = async (
+    cardId: string,
+    front: string,
+    back: string,
+  ) => {
     try {
       await editCard(selectedDeckId as string, cardId, front, back); // api.ts
-      updateCard(selectedDeckId as string, front, back); // store.ts
+      updateCard(cardId, front, back); // store.ts
     } catch (error) {
       toast({
         variant: "destructive",

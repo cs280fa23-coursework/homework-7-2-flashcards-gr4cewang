@@ -60,18 +60,18 @@ export class CardsService {
       where: [
         {
           deckId,
-          front
+          front,
         },
         {
           deckId,
-          back
+          back,
         },
       ],
       order: {
         createdAt: "DESC",
       },
       relations: ["deck"],
-    })
+    });
 
     return cards;
   }

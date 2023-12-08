@@ -74,27 +74,27 @@ export const useStore = create<State & Action>()(
     setCards: (cards) => set({ cards }),
 
     addCard: (card) => {
-      set({ 
-        cards: [card, ...get().cards ],
+      set({
+        cards: [card, ...get().cards],
         decks: get().decks.map((deck) => {
           if (deck.id === card.deckId) {
             return {
-              ... deck,
+              ...deck,
               numberOfCards: deck.numberOfCards + 1,
             };
           }
           return deck;
-        })
+        }),
       });
     },
 
     updateCard: (id, front, back) => {
       const newCards: Card[] = get().cards.map((card) => {
-        if (card.id == id) {
-          return { ... card, front: front, back: back};
+        if (card.id === id) {
+          return { ...card, front: front, back: back };
         }
         return card;
-      })
+      });
 
       set({ cards: newCards });
     },
@@ -104,7 +104,7 @@ export const useStore = create<State & Action>()(
       set({ cards: newCards });
     },
 
-    clearCards: () => set({ cards: []}),
+    clearCards: () => set({ cards: [] }),
 
     setSelectedDeckId: (id) => set({ selectedDeckId: id }),
     clearSelectedDeckId: () => set({ selectedDeckId: null }),

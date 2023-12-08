@@ -10,9 +10,6 @@ const CardView = () => {
   const { deckId } = useParams();
   const selectedDeckId = useStore((state) => state.selectedDeckId);
   const setSelectedDeckId = useStore((state) => state.setSelectedDeckId);
-  
-  console.log(deckId);
-  console.log(selectedDeckId);
 
   useEffect(() => {
     if (deckId) {

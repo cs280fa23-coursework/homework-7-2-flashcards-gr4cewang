@@ -34,7 +34,12 @@ const EditCardDialog = ({
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (card !== null && card.deckId !== cardId && card.front !== newFront && card.back !== newBack) {
+    if (
+      card !== null &&
+      card.deckId !== cardId &&
+      card.front !== newFront &&
+      card.back !== newBack
+    ) {
       setFront(card.front);
       setBack(card.back);
       setId(card.id);
@@ -51,20 +56,19 @@ const EditCardDialog = ({
         description: `Please provide the required information to update a card.`,
       });
       // Close (possibility 1):
-
       setMenuOpen(false);
       setDialogOpen(false);
       setFront("");
       setBack("");
       return;
     } else {
-        await mutateCardById(cardId, newFront, newBack);
+      await mutateCardById(cardId, newFront, newBack);
 
-        // Close (possibility 2):
-        setMenuOpen(false);
-        setDialogOpen(false);
-        setFront("");
-        setBack("");
+      // Close (possibility 2):
+      setMenuOpen(false);
+      setDialogOpen(false);
+      setFront("");
+      setBack("");
     }
   };
 
@@ -137,10 +141,7 @@ const EditCardDialog = ({
             </Button>
           </DialogClose>
           <DialogClose asChild>
-            <Button
-              type="submit"
-              onClick={handleSave}
-            >
+            <Button type="submit" onClick={handleSave}>
               Save
             </Button>
           </DialogClose>

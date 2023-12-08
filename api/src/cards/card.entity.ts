@@ -22,7 +22,7 @@ export class Card {
   @CreateDateColumn({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
   createdAt: Date;
 
-  @ManyToOne(() => Deck, (deck) => deck.cards, { onDelete: 'CASCADE'})
+  @ManyToOne(() => Deck, (deck) => deck.cards, { onDelete: "CASCADE" })
   @JoinColumn({ name: "deckId" })
   deck: Deck;
 

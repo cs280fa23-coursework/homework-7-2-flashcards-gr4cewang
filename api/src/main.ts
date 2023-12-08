@@ -13,7 +13,6 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      // <-- Add these options
       transform: true, // Enable transformation
       whitelist: true, // Strip properties that do not have any decorators
       //forbidNonWhitelisted: true, // Throw errors if non-whitelisted values are provided

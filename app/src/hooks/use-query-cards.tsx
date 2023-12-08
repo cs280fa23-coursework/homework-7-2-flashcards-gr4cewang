@@ -28,7 +28,7 @@ function useQueryCards() {
     }
   };
 
-    useEffect(() => {
+  useEffect(() => {
     if (selectedDeckId) {
       loadCards();
     } else {
@@ -37,8 +37,8 @@ function useQueryCards() {
     }
   }, [selectedDeckId]);
 
-  return { 
-    cards
+  return {
+    cards,
   };
 }
 

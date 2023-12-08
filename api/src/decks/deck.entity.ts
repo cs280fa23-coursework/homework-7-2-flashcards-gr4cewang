@@ -36,7 +36,7 @@ export class Deck {
 
   @Column()
   userId: number;
-  
+
   @OneToMany(() => Card, (card) => card.deck)
   cards: Card[];
 }

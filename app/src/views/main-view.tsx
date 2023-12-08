@@ -7,7 +7,7 @@ const MainView = ({ user }: { user: User | null }) => {
   return (
     <>
       <Sidebar />
-      <Feed user = {user} />
+      <Feed user={user} />
       <Aside />
     </>
   );

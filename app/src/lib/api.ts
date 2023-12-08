@@ -6,11 +6,6 @@ import {
   storeAuthenticatedUserToken,
 } from "./auth";
 
-// // Mock database
-// const db = {
-//   decks,
-// };
-
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Fetch all decks with user data
@@ -171,20 +166,20 @@ const handleError = (response: Response, message?: string) => {
 };
 
 export const createCard = async (
-  front: string,  // what is written of the front of the flashcard
-  back: string,   // what is written on the back of the flashcard
-  deckId:string,
+  front: string, // what is written of the front of the flashcard
+  back: string, // what is written on the back of the flashcard
+  deckId: string,
 ): Promise<Card> => {
   const token = getAuthenticatedUserToken();
 
-  const response = await fetch (`${API_URL}/decks/${deckId}/cards`, {
+  const response = await fetch(`${API_URL}/decks/${deckId}/cards`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ front, back }),
-  })
+  });
 
   const responseJson = await response.json();
 
@@ -193,9 +188,14 @@ export const createCard = async (
   }
 
   return responseJson.data;
-}
+};
 
-export const editCard = async (deckId:string, cardId:string, newFront: string, newBack: string): Promise<void> => {
+export const editCard = async (
+  deckId: string,
+  cardId: string,
+  newFront: string,
+  newBack: string,
+): Promise<void> => {
   const token = getAuthenticatedUserToken();
 
   const response = await fetch(`${API_URL}/decks/${deckId}/cards/${cardId}`, {
@@ -204,18 +204,21 @@ export const editCard = async (deckId:string, cardId:string, newFront: string, n
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ front : newFront, back : newBack }),
+    body: JSON.stringify({ front: newFront, back: newBack }),
   });
   const responseJson = await response.json();
 
-  console.log(responseJson);
-  
+  //console.log(responseJson);
+
   if (!response.ok) {
     handleError(response, responseJson.message);
   }
 };
 
-export const deleteCard = async (deckId: string, cardId:string): Promise<void> => {
+export const deleteCard = async (
+  deckId: string,
+  cardId: string,
+): Promise<void> => {
   const token = getAuthenticatedUserToken();
 
   const response = await fetch(`${API_URL}/decks/${deckId}/cards/${cardId}`, {
@@ -231,18 +234,18 @@ export const deleteCard = async (deckId: string, cardId:string): Promise<void> =
   }
 };
 
-export const fetchCards = async (deckId:string): Promise<Card[]> => {
+export const fetchCards = async (deckId: string): Promise<Card[]> => {
   const token = getAuthenticatedUserToken();
   // console.log(token);
 
   const response = await fetch(
-    `${API_URL}/decks/${deckId}/cards?withDeckData=true`, // TODO does this work?? 
+    `${API_URL}/decks/${deckId}/cards?withDeckData=true`, // TODO does this work??
     {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   // console.log(response);

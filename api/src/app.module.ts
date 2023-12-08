@@ -47,7 +47,7 @@ import { CardsModule } from "./cards/cards.module";
     PassportModule,
     TypeOrmModule.forFeature([User]),
     DecksModule,
-    CardsModule
+    CardsModule,
   ],
   controllers: [AppController, UserController],
   providers: [AppService, AuthService, LocalStrategy, JwtStrategy, UserService],

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Deck = ({ deck }: { deck: DeckType }) => {
   return (
-    <div className="p-4 border-b border-slate-400">
+    <div className="p-4 border border-slate-400 rounded-lg overflow-hidden">
       <div className="flex items-center justify-between">
         <div className="pb-4">
           <strong>{deck.title}</strong>
@@ -18,7 +18,7 @@ const Deck = ({ deck }: { deck: DeckType }) => {
       <div className="flex p-4 mb-2">{deck.numberOfCards} cards</div>
       <Button variant="ghost" size="sm">
         <Link to={`decks/${deck.id}`}>
-        <div className="flex items-center">
+          <div className="flex items-center">
             <OpenInNewWindowIcon className="w-4 h-4" />
             <span className="ml-1">See cards</span>
           </div>

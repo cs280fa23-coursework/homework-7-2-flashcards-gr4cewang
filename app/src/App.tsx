@@ -17,7 +17,7 @@ function App() {
   const clearUser = useStore((state) => state.clearUser);
   const { toast } = useToast();
 
-    useEffect(() => {
+  useEffect(() => {
     const token = getAuthenticatedUserToken();
     if (token) {
       const isExpired = isTokenExpired(token);
@@ -36,12 +36,12 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <MainView user = { user } />,
+      element: <MainView user={user} />,
       errorElement: <ErrorPage />,
     },
     {
       path: "/decks/:deckId",
-      element: <CardView  />,
+      element: <CardView />,
       errorElement: <ErrorPage />,
     },
   ]);

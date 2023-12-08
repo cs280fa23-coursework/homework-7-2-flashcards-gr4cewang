@@ -8,7 +8,7 @@ import { useStore } from "@/lib/store";
 const Sidebar = () => {
   const selectedDeckId = useStore((state) => state.selectedDeckId);
   const clearSelectedDeckId = useStore((state) => state.clearSelectedDeckId);
-  
+
   const navigate = useNavigate();
 
   const handleClickHome = () => {

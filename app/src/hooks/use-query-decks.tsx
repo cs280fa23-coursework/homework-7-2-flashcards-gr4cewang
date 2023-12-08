@@ -7,7 +7,6 @@ function useQueryDecks() {
   const { toast } = useToast();
   const decks = useStore((state) => state.decks);
   const setDecks = useStore((state) => state.setDecks);
-  
 
   useEffect(() => {
     const loadDecks = async () => {
@@ -32,7 +31,5 @@ function useQueryDecks() {
     decks,
   };
 }
-
-
 
 export default useQueryDecks;
