@@ -11,7 +11,6 @@ const API_URL = import.meta.env.VITE_API_URL;
 // Fetch all decks with user data
 export const fetchDecks = async (): Promise<Deck[]> => {
   const token = getAuthenticatedUserToken();
-  // console.log(token);
 
   const response = await fetch(`${API_URL}/decks?withUserData=true`, {
     method: "GET",
@@ -20,15 +19,12 @@ export const fetchDecks = async (): Promise<Deck[]> => {
     },
   });
 
-  // console.log(response);
-
   const responseJson = await response.json();
 
   if (!response.ok) {
     handleError(response, responseJson.message);
   }
 
-  //console.log(responseJson.data);
   return responseJson.data;
 };
 
@@ -208,8 +204,6 @@ export const editCard = async (
   });
   const responseJson = await response.json();
 
-  //console.log(responseJson);
-
   if (!response.ok) {
     handleError(response, responseJson.message);
   }
@@ -236,10 +230,9 @@ export const deleteCard = async (
 
 export const fetchCards = async (deckId: string): Promise<Card[]> => {
   const token = getAuthenticatedUserToken();
-  // console.log(token);
 
   const response = await fetch(
-    `${API_URL}/decks/${deckId}/cards?withDeckData=true`, // TODO does this work??
+    `${API_URL}/decks/${deckId}/cards?withDeckData=true`,
     {
       method: "GET",
       headers: {
@@ -248,15 +241,12 @@ export const fetchCards = async (deckId: string): Promise<Card[]> => {
     },
   );
 
-  // console.log(response);
-
   const responseJson = await response.json();
 
   if (!response.ok) {
     handleError(response, responseJson.message);
   }
 
-  //console.log(responseJson.data);
   return responseJson.data;
 };
 

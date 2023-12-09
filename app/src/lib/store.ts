@@ -16,13 +16,11 @@ type Action = {
   updateDeck: (id: string, title: string) => void;
   setUser: (user: User) => void;
   clearUser: () => void;
-
   setCards: (cards: Card[]) => void;
   addCard: (card: Card) => void;
   removeCard: (id: string) => void;
   updateCard: (id: string, front: string, back: string) => void;
   clearCards: () => void;
-
   setSelectedDeckId: (id: string) => void;
   clearSelectedDeckId: () => void;
 };
